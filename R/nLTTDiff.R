@@ -1,0 +1,54 @@
+normLTTdiffABS <- function(tree1, tree2) {
+
+  b_times <- c(-1 * rev(sort(branching.times(tree1))),0);
+  lineages <- c(2:length(b_times),length(b_times));
+  b_times_N <- 1 - b_times / min(b_times); #normalize branching times  
+  lineages_N <- lineages / max(lineages);  #normalize lineages  
+  ltt1 <- approxfun(b_times_N,lineages_N,method="constant");
+
+  b_times2 <- c(-1 * rev(sort(branching.times(tree2))),0);
+  lineages2 <- c(2:length(b_times2),length(b_times2));  
+  b_times2_N <- 1 - b_times2 / min(b_times2); #normalize branching times  
+  lineages2_N <- lineages2 / max(lineages2);  #normalize lineages  
+  ltt2 <- approxfun(b_times2_N,lineages2_N,method="constant");
+
+  f <- function(t,x,p) { #function f is the absolute difference in time t: 0 <= t < 1
+       output <- abs( ltt1(t) - ltt2(t));
+       return(list(output));
+  }
+  
+  times <- (0:100)/100;
+  int_1 <- lsoda(0,times,func=f,tcrit=c(1)); #integrate over t: 0 < t < 1, notice tcrit=0 indicating t should never be larger than 0.
+  total_area <- int_1[length(times),2]
+  
+  return(total_area);
+}
+
+normLTTdiffSQ <- function(tree1, tree2) {
+
+  b_times <- c(-1 * rev(sort(branching.times(tree1))),0);
+  lineages <- c(2:length(b_times),length(b_times));
+  b_times_N <- 1 - b_times / min(b_times); #normalize branching times  
+  lineages_N <- lineages / max(lineages);  #normalize lineages  
+  ltt1 <- approxfun(b_times_N,lineages_N,method="constant");
+
+  b_times2 <- c(-1 * rev(sort(branching.times(tree2))),0);
+  lineages2 <- c(2:length(b_times2),length(b_times2));  
+  b_times2_N <- 1 - b_times2 / min(b_times2); #normalize branching times  
+  lineages2_N <- lineages2 / max(lineages2);  #normalize lineages  
+  ltt2 <- approxfun(b_times2_N,lineages2_N,method="constant");
+
+  f <- function(t,x,p) { #function f is the absolute difference in time t: 0 <= t < 1
+       output <- ltt1(t) - ltt2(t);
+	   output <- output * output;
+       return(list(output));
+  }
+  
+  times <- (0:100)/100;
+  int_1 <- lsoda(0,times,func=f,tcrit=c(1)); #integrate over t: 0 < t < 1, notice tcrit=0 indicating t should never be larger than 0.
+  total_area <- int_1[length(times),2]
+  
+  return(total_area);
+}
+
+
