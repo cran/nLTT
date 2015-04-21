@@ -3,24 +3,31 @@
 \alias{nLTT}
 \docType{package}
 \title{
-	Package providing functions to visualize the normalized Lineage-Through-Time statistic, and calculate the difference between two nLTT curves.
+	Package providing functions to visualize the normalized Lineage-Through-Time statistic, and calculate the difference between two nLTT curves
 }
 \description{
-	This package provides a function to visualize the normalized Lineage-Through-Time (nLTT) statistic, where the number of lineages relative to the maximum number of lineages in a phylogenetic tree is plotted against the relative time between the most common recent ancestor and the present. Furthermore the package provides two functions to calculate either the absolute or the squared difference between two nLTT curves.
+	This package provides a function to visualize the normalized Lineage-Through-Time (nLTT) statistic, where the number of lineages relative to the maximum number of lineages in a phylogenetic tree is plotted against the relative time between the most common recent ancestor and the present. Furthermore the package provides a function to calculate the difference between two nLTT curves, including two different distance measurements. 
+\cr
+\cr
+Updates:\cr
+Version 1.1: Made a universal nLTT function called "nLTTstat", with argument "distanceMethod", this serves as a more elegant wrapper for the functions "normLTTdiffABS" and "normLTTdiffSQ" \cr
+Version 1.1: Updated references in the manual \cr
+
+	
 }
 \details{
 \tabular{ll}{
 Package: \tab nLTT\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2014-09-17\cr
+Version: \tab 1.1\cr
+Date: \tab 2015-04-21\cr
 License: GPL 2.0
 }
 
 }
 
 \references{
- T. Janzen, S. Hoehna, R.S. Etienne, 2015, Approximate Bayesian Computation of diversification rates from molecular phylogenies: introducing a new efficient summary statistic, the nLTT, Methods in Ecology and Evolution, in prep
+ Janzen,T. Hoehna,S., Etienne,R.S. (2015) Approximate Bayesian Computation of diversification rates from molecular phylogenies: introducing a new efficient summary statistic, the nLTT. Methods in Ecology and Evolution. doi: 10.1111/2041-210X.12350
 }
 
 \author{

@@ -77,7 +77,7 @@ ABC_SMC_nLTT(tree, statistics, simFunc, initEpsilon,
  obs <- treeSim(c(0.5,0.1));
  
  statWrapper <- function(tree1) {
-	return(normLTTdiffABS(tree1,obs));
+	return(nLTT(tree1,obs,"abs"));
  }
 	
  stats <- c(statWrapper);

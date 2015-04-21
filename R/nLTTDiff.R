@@ -1,3 +1,13 @@
+nLTTstat <- function(tree1, tree2, distanceMethod = "abs")
+{
+ 	diff <- -10;
+ 	if(distanceMethod == "abs") diff = normLTTdiffABS(tree1,tree2);
+ 	if(distanceMethod == "squ") diff = normLTTdiffSQ(tree1,tree2);
+ 	 	
+ 	if(diff < 0) {cat("chosen unknown distance method!\n"); flush.console();}
+ 	return(diff);	
+}
+
 normLTTdiffABS <- function(tree1, tree2) {
 
   b_times <- c(-1 * rev(sort(branching.times(tree1))),0);

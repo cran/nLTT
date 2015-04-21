@@ -2,6 +2,8 @@
 \title{Internal nLTT functions}
 \alias{calcSummary}
 \alias{calculateWeight}
+\alias{normLTTdiffABS}
+\alias{normLTTdiffSQ}
 
 \description{Internal nLTT functions}
 \details{These are not to be called by the user}

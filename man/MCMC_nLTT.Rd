@@ -1,7 +1,7 @@
 \name{MCMC_nLTT}
 \alias{MCMC_nLTT}
 \title{
-  Code to perform Metropolis-Hastings MCMC for a diversification model, given a phylogenetic tree.
+  Code to perform Metropolis-Hastings MCMC for a diversification model, given a phylogenetic tree. This function was used in the MEE paper to calculate the likelihood reference estimates.
 }
 \description{
   This function performs Metropolis-Hastings MCMC, where the user provides a likelihood function and a phylogenetic tree.
