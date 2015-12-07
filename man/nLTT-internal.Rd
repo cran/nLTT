@@ -1,6 +1,5 @@
 \name{nLTT-internal}
 \title{Internal nLTT functions}
-\alias{calcSummary}
 \alias{calculateWeight}
 \alias{normLTTdiffABS}
 \alias{normLTTdiffSQ}

@@ -105,20 +105,6 @@ ABC_SMC_nLTT <- function(tree,statistics,simFunc,initEpsilon,PRIOR_GEN,PRIOR_DEN
         }
       }
     }
-	
-     output <- c();
-	 for(k in 1:length(parameters)) {
-	    add <- c();
-		for(m in 1:length(previousParams[[k]])) {
-			add <- c(add,previousParams[[k]][m]);
-		}
-		output <- rbind(output,add);
-	}
-
-    summaryStats <- calcSummary(newParams);
-	
-    cat(" current estimates",summaryStats[1],"+/-",summaryStats[2],summaryStats[3],"+/-",summaryStats[4],
-		"eps:",epsilon[i,1],"ESS:", "\n");
   }
   
   
@@ -147,19 +133,6 @@ calculateWeight <- function(W,P,current,S,PRIOR_DENS) {
     
    return(numerator / sum(vals));
 }
-
-calcSummary <- function(P) { #P is a list of values
-	lambda <- c();
-	mu <- c();
-	for(i in 1:length(P)) {
-	  lambda[i] <- P[[i]][1];
-	  mu[i] <- P[[i]][2];
-	}
-
-	output <- c( mean(lambda),sd(lambda),mean(mu),sd(mu));
-	return(output);
-}
-
 
 MCMC_nLTT <- function(phy,likelihoodFunction,parameters,logTransforms,iterations,burnin=round(iterations/3),thinning=1,sigma=1) {
 

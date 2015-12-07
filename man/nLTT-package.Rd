@@ -10,6 +10,8 @@
 \cr
 \cr
 Updates:\cr
+Version 1.1.1: fixed a minor bug in the ABC_SMC_nLTT function \cr
+Version 1.1.1: removed some intermediate output in ABC_SMC_nLTT function \cr
 Version 1.1: Made a universal nLTT function called "nLTTstat", with argument "distanceMethod", this serves as a more elegant wrapper for the functions "normLTTdiffABS" and "normLTTdiffSQ" \cr
 Version 1.1: Updated references in the manual \cr
 
