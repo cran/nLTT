@@ -61,11 +61,11 @@ ABC_SMC_nLTT(tree, statistics, simFunc, initEpsilon,
 
 
  prior_gen <- function() {
- 	return( rlnorm(n=2,mean=0,sd=1) );
+ 	return( rexp(n=2,rate=0.1) );
  }
 
  prior_dens <- function(val) {
- 	return( dlnorm(val[1],mean=0,sd=1) * dlnorm(val[1],mean=0,sd=1));
+ 	return( dexp(val[1],rate=0.1) * dexp(val[2],rate=0.1));
  }
 
  require(TESS);

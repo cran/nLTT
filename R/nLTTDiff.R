@@ -8,6 +8,77 @@ nLTTstat <- function(tree1, tree2, distanceMethod = "abs")
  	return(diff);	
 }
 
+nLTTstat_exact <- function(tree1, tree2, distanceMethod = "abs")
+{
+ 	diff <- -10;
+ 	if(distanceMethod == "abs") diff = normLTTdiffexactABS(tree1,tree2);
+ 	if(distanceMethod == "squ") diff = normLTTdiffexactSQ(tree1,tree2);
+ 	 	
+ 	if(diff < 0) {cat("chosen unknown distance method!\n"); flush.console();}
+ 	return(diff);	
+}
+
+
+
+normLTTdiffexactABS <- function(tree1,tree2)
+{
+	b_times <- c(-1 * rev(sort(branching.times(tree1))),0);
+  	lineages <- c(2:length(b_times),length(b_times));
+  	b_times_N <- 1 - b_times / min(b_times); #normalize branching times  
+  	lineages_N <- lineages / max(lineages);  #normalize lineages  	
+	
+	b_times2 <- c(-1 * rev(sort(branching.times(tree2))),0);
+    lineages2 <- c(2:length(b_times2),length(b_times2));  
+    b_times2_N <- 1 - b_times2 / min(b_times2); #normalize branching times  
+    lineages2_N <- lineages2 / max(lineages2);  #normalize lineages  
+	
+	allBtimes <- unique(sort(c(b_times_N,b_times2_N)));
+	diff <- 0;
+	for(k in 2:length(allBtimes))
+	{
+			tim <- allBtimes[k];
+			index1 <- max(which(b_times_N <= tim));
+			index2 <- max(which(b_times2_N <= tim));
+			lins1 <- lineages_N[index1];
+			lins2 <- lineages2_N[index2];
+			dt <- allBtimes[k] - allBtimes[k-1]
+			diff <- diff + dt * abs(lins1-lins2);
+	}
+	return(diff);
+}
+
+normLTTdiffexactSQ <- function(tree1,tree2)
+{
+	b_times <- c(-1 * rev(sort(branching.times(tree1))),0);
+  	lineages <- c(2:length(b_times),length(b_times));
+  	b_times_N <- 1 - b_times / min(b_times); #normalize branching times  
+  	lineages_N <- lineages / max(lineages);  #normalize lineages  	
+	
+	b_times2 <- c(-1 * rev(sort(branching.times(tree2))),0);
+    lineages2 <- c(2:length(b_times2),length(b_times2));  
+    b_times2_N <- 1 - b_times2 / min(b_times2); #normalize branching times  
+    lineages2_N <- lineages2 / max(lineages2);  #normalize lineages  
+	
+	allBtimes <- unique(sort(c(b_times_N,b_times2_N)));
+	diff <- 0;
+	for(k in 2:length(allBtimes))
+	{
+			tim <- allBtimes[k];
+			index1 <- max(which(b_times_N <= tim));
+			index2 <- max(which(b_times2_N <= tim));
+			lins1 <- lineages_N[index1];
+			lins2 <- lineages2_N[index2];
+			dt <- allBtimes[k] - allBtimes[k-1]
+			diff <- diff + dt * (lins1-lins2)*(lins1-lins2);
+	}
+	return(diff);
+}
+
+
+
+
+
+
 normLTTdiffABS <- function(tree1, tree2) {
 
   b_times <- c(-1 * rev(sort(branching.times(tree1))),0);

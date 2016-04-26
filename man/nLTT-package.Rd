@@ -10,19 +10,21 @@
 \cr
 \cr
 Updates:\cr
+Version 1.2: added an "exact" nLTT function. This function is faster for small trees, and provides an exact measurement of the nLTT function. Comparison between "old" and "exact" estimates show that these are highly correlated, although the "exact" values are slightly higher than the "old" values. The "exact" function should generally be preferred, unless dealing with extremely large trees (500+ tips) in which case the old function is much faster. \cr\cr 
+Version 1.2: updated the example for the ABC_SMC_nLTT function, prior generating and prior density functions are now more realistic
+\cr\cr
 Version 1.1.1: fixed a minor bug in the ABC_SMC_nLTT function \cr
 Version 1.1.1: removed some intermediate output in ABC_SMC_nLTT function \cr
 Version 1.1: Made a universal nLTT function called "nLTTstat", with argument "distanceMethod", this serves as a more elegant wrapper for the functions "normLTTdiffABS" and "normLTTdiffSQ" \cr
 Version 1.1: Updated references in the manual \cr
-
 	
 }
 \details{
 \tabular{ll}{
 Package: \tab nLTT\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2015-04-21\cr
+Version: \tab 1.2\cr
+Date: \tab 2016-04-25\cr
 License: GPL 2.0
 }
 
