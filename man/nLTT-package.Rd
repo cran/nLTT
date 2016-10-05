@@ -10,8 +10,7 @@
 \cr
 \cr
 Updates:\cr
-Version 1.2.1: updated comments and coding style to adhere to Google's style guid. Backwards compatibility has been favoured for the nLTT stat functions. ABC related functions are no longer backwards compatible (variable names have been changed to adhere to coding style). \cr
-Version 1.2.2: fixed an error in the calculation of the exact nLTT function. Results are not more consistent, also for smaller trees. The exact function should now always be favoured over the old function. \cr
+Version 1.2.1: updated comments and coding style to adhere to the general coding rules. Backwards compatibility has been favoured for the nLTT stat functions. ABC related functions are no longer backwards compatible (variable names have been changed to adhere to coding style). \cr
 Version 1.2: added an "exact" nLTT function. This function is faster for small trees, and provides an exact measurement of the nLTT function. Comparison between "old" and "exact" estimates show that these are highly correlated, although the "exact" values are slightly higher than the "old" values. The "exact" function should generally be preferred, unless dealing with extremely large trees (500+ tips) in which case the old function is much faster. \cr\cr 
 Version 1.2: updated the example for the ABC_SMC_nLTT function, prior generating and prior density functions are now more realistic
 \cr\cr
