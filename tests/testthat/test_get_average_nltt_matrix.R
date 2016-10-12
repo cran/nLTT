@@ -109,10 +109,6 @@ test_that(paste("get_average_nltt_matrix: ",
   # The real tests
   result <- nLTT::get_average_nltt_matrix(
     c(phylogeny1, phylogeny2), dt = 0.20)
-  result_1 <- nLTT::get_average_nltt_matrix_impl_1(
-    c(phylogeny1, phylogeny2), dt = 0.20)
-  result_2 <- nLTT::get_average_nltt_matrix_impl_2(
-    c(phylogeny1, phylogeny2), dt = 0.20)
 
   ##      [,1]      [,2]  # nolint
   ## [1,]  0.0 0.3611111  # nolint
@@ -124,8 +120,6 @@ test_that(paste("get_average_nltt_matrix: ",
   expected <- matrix(c(seq(0.0, 1.0, 0.2), rep(13 / 36, 3),
     2 / 3, 5 / 6, 1.0), ncol = 2)
   expect_equal(all.equal(result, expected), TRUE)
-  expect_equal(all.equal(result_1, expected), TRUE)
-  expect_equal(all.equal(result_2, expected), TRUE)
 })
 
 test_that("get_average_nltt_matrix: data types", {
@@ -153,41 +147,6 @@ test_that("get_average_nltt_matrix: data types", {
   expect_equal(nrow(p), 1001)
   expect_equal(TRUE, TRUE)
 })
-
-test_that("get_average_nltt_matrix: speed comparison", {
-
-  n_trees <- 100
-  n_tips <- 200
-  set.seed(41)
-  treesim_phylogenies_all <- TreeSim::sim.bd.age(
-    6, numbsim = n_trees, lambda = 0.5, mu = 0.0, complete = FALSE)
-  treesim_phylogenies <- NULL
-  for (p in treesim_phylogenies_all) {
-    if (class(p) == "phylo") {
-      treesim_phylogenies <- c(treesim_phylogenies, list(p))
-    }
-  }
-
-  # Stub: get_average_nltt_matrix_impl_2 is identical
-  # to get_average_nltt_matrix_impl_1,
-  # but it is called with lower dt, making it slower
-  timings <- microbenchmark::microbenchmark(
-
-    nLTT::get_average_nltt_matrix_impl_1(treesim_phylogenies, dt = 0.1),
-    nLTT::get_average_nltt_matrix_impl_2(treesim_phylogenies, dt = 0.01),
-    times = 2
-  )
-  timings_summary <- summary(timings)
-  #timings_summary
-
-  # Trivial test
-  expect_equal(
-    timings_summary$mean[1] <= timings_summary$mean[2] ||
-    timings_summary$mean[1] >= timings_summary$mean[2],
-    TRUE
-  )
-})
-
 
 test_that("get_average_nltt_matrix: stop on incorrect input", {
 
