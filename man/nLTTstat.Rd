@@ -2,32 +2,39 @@
 % Please edit documentation in R/nLTTDiff.R
 \name{nLTTstat}
 \alias{nLTTstat}
-\title{Calculate the difference between two normalized Lineage-Through-Time curves, given two phylogenetic trees.}
+\title{Calculate the difference between two normalized
+  Lineage-Through-Time curves, given two phylogenetic trees.}
 \usage{
-nLTTstat(tree1, tree2, distance_method = "abs")
+nLTTstat(tree1, tree2, distance_method = "abs", ignore_stem = TRUE)
 }
 \arguments{
 \item{tree1}{an object of class \code{"phylo"}}
 
 \item{tree2}{an object of class \code{"phylo"}}
 
-\item{distance_method}{Chosen measurement of distance between the two nLTT curves, options are (case sensitive):\cr
+\item{distance_method}{Chosen measurement of distance between
+the two nLTT curves, options are (case sensitive):\cr
 - "abs": use the absolute distance\cr
 - "squ": use the squared distance;\cr}
+
+\item{ignore_stem}{a boolean whether to ignore the stem length}
 }
 \value{
 The difference between the two nLTT statistics
 }
 \description{
-This function takes two ultrametric phylogenetic trees, calculates the normalized Lineage-Through-Time statistic for both trees and then calculates the difference between the two statistics.
+This function takes two ultrametric phylogenetic trees,
+  calculates the normalized Lineage-Through-Time statistic for both trees
+  and then calculates the difference between the two statistics.
 }
 \examples{
   data(exampleTrees)
   nltt_plot(exampleTrees[[1]])
   nltt_lines(exampleTrees[[2]], lty=2)
-  nLTTstat(exampleTrees[[1]], exampleTrees[[2]], distance_method = "abs")
+  nLTTstat(
+    exampleTrees[[1]], exampleTrees[[2]],
+    distance_method = "abs", ignore_stem = TRUE)
 }
 \author{
 Thijs Janzen
 }
-

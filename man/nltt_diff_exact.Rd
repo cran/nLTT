@@ -2,7 +2,8 @@
 % Please edit documentation in R/nLTTDiff.R
 \name{nltt_diff_exact}
 \alias{nltt_diff_exact}
-\title{Calculates the exact, difference between the lineage through time curves of tree1 & tree2 (normalized in time and for the number of lineages)}
+\title{Calculates the exact, difference between the lineage through time
+curves of tree1 & tree2 (normalized in time and for the number of lineages)}
 \usage{
 nltt_diff_exact(tree1, tree2, distance_method = "abs", ignore_stem = TRUE)
 }
@@ -16,12 +17,13 @@ nltt_diff_exact(tree1, tree2, distance_method = "abs", ignore_stem = TRUE)
 \item{ignore_stem}{(logical) Should the phylogeny its stem be ignored?}
 }
 \value{
-(scalar) normalized Lineage-Through-Time difference between tree1 & tree2
+(scalar) normalized Lineage-Through-Time difference
+  between tree1 & tree2
 }
 \description{
-Calculates the exact, difference between the lineage through time curves of tree1 & tree2 (normalized in time and for the number of lineages)
+Calculates the exact, difference between the lineage through time
+curves of tree1 & tree2 (normalized in time and for the number of lineages)
 }
 \author{
 Thijs Janzen
 }
-
