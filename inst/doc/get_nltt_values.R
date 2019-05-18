@@ -1,5 +1,10 @@
 ## ---- include = FALSE----------------------------------------------------
 library(nLTT) #nolint
+# temporary fix to keep R-devel happy.
+  # should be updated upon release of version 3.6
+
+suppressWarnings(RNGversion("3.5.0"))
+
 
 ## ------------------------------------------------------------------------
 newick1 <- "((A:1,B:1):2,C:3);"

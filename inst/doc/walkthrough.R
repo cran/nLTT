@@ -46,10 +46,14 @@ legend("topleft", c("trees1", "trees2"), col = c("red", "blue"),
        lty = 1, lwd = 2)
 
 ## ------------------------------------------------------------------------
+fixed_issue <- FALSE
+
+## ------------------------------------------------------------------------
  treesim <- function(params) {
-    t <- TESS::tess.sim.taxa(n = 1,
-                             lambda = params[1],
-                             mu = 0.0, nTaxa = 100, max = 10)[[1]]
+    t <- TreeSim::sim.bd.taxa.age(n = 100, 
+                              numbsim = 1,
+                              lambda = params[1],
+                              mu = 0, age = 10)[[1]]
     return(t)
  }
 
@@ -71,15 +75,19 @@ set.seed(42)
 obs <- treesim(c(0.50, 0)) #lambda = 0.5, mu = 0.0
 
 ## ------------------------------------------------------------------------
-A <- abc_smc_nltt(
-    obs, c(statwrapper), treesim, init_epsilon_values = 0.2,
-    prior_generating_function = prior_gen,
-    prior_density_function = prior_dens,
-    number_of_particles = 100, sigma = 0.05, stop_rate = 0.01)
+if (fixed_issue) {
+  A <- abc_smc_nltt(
+      obs, c(statwrapper), treesim, init_epsilon_values = 0.2,
+      prior_generating_function = prior_gen,
+      prior_density_function = prior_dens,
+      number_of_particles = 100, sigma = 0.05, stop_rate = 0.01)
+}
 
 ## ------------------------------------------------------------------------
-hist(A, breaks = seq(0, 1, by = 0.05), col = "grey", main = "Lambda")
-abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
+if (fixed_issue) {
+  hist(A, breaks = seq(0, 1, by = 0.05), col = "grey", main = "Lambda")
+  abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
+}
 
 ## ------------------------------------------------------------------------
 LL_B <- function(params, phy) {
@@ -91,6 +99,7 @@ LL_B <- function(params, phy) {
 }
 
 ## ------------------------------------------------------------------------
+if (fixed_issue) {
   fun <- function(x) {
     return(-1 * LL_B(x, obs)) # nolint
   }
@@ -103,18 +112,24 @@ LL_B <- function(params, phy) {
          pch = c(15, NA, NA),
          lty = c(NA, 2, 2), 
          col = c("grey", "green", "blue"), lwd = 2)
+}
 
 ## ------------------------------------------------------------------------
-B <- mcmc_nltt(obs, LL_B, parameters = c(0.5), 
-                         logtransforms = c(TRUE),
-                         iterations = 10000, burnin = 1000,
-                         thinning = 1, sigma = 1)
+if (fixed_issue) {
+  B <- mcmc_nltt(obs, LL_B, parameters = c(0.5), 
+                           logtransforms = c(TRUE),
+                           iterations = 10000, burnin = 1000,
+                           thinning = 1, sigma = 1)
+}
 
 ## ------------------------------------------------------------------------
-B.mcmc <- coda::as.mcmc(B)
-plot(B.mcmc)
+if (fixed_issue) {
+  B.mcmc <- coda::as.mcmc(B)
+  plot(B.mcmc)
+}
 
 ## ------------------------------------------------------------------------
+if (fixed_issue) {
   par(mfrow = c(1, 2))
   hist(A, breaks = seq(0, 1, by = 0.05), col = "grey", 
        main = "Lambda, ABC", xlab = "")
@@ -127,4 +142,5 @@ plot(B.mcmc)
        main = "Lambda, MCMC", xlab = "")
   abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
   abline(v = ML$minimum, lty = 2, col = "green", lwd = 2)
+}
 

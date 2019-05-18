@@ -4,6 +4,7 @@ test_that("can get the average nLTT stats from one phylogeny", {
 
   n_trees <- 2
   n_tips <- 3
+
   set.seed(41)
   single_phylogeny <- ape::rmtree(N = 1, n = n_tips)
   testthat::expect_silent(get_average_nltt_matrix(single_phylogeny))
@@ -15,20 +16,18 @@ test_that(paste(
 
   # The average of nLTTs A and B should be C
   #
-  #      A              B              C       # nolint
-  #                                            # nolint
-  # |  ********    |      ****    |      ****  # nolint
-  # |  *           |      *       |   ****     # nolint
-  # ****           ********       *****        # nolint
-  # |              |              |            # nolint
-  # |              |              |            # nolint
-  # |              |              |            # nolint
-  # +----------    +----------    +----------  # nolint
+  #      A              B              C    # nolint
+  #                                         # nolint
+  # +  *******    +     ****    +  ...****  # nolint
+  # |  *          |     *       |  ****     # nolint
+  # ****          *******       ****...     # nolint
+  # |             |             |           # nolint
+  # +             +             +           # nolint
+  # |             |             |           # nolint
+  # +--+--+--+    +--+--+--+    +--+--+--+  # nolint
   #
-  newick1 <- "((A:1,B:1):2,C:3);"
-  newick2 <- "((A:2,B:2):1,C:3);"
-  phylogeny1 <- ape::read.tree(text = newick1)
-  phylogeny2 <- ape::read.tree(text = newick2)
+  phylogeny1 <- ape::read.tree(text = "((A:1, B:1):2, C:3);")
+  phylogeny2 <- ape::read.tree(text = "((A:2, B:2):1, C:3);")
   nltt_matrix1 <- nLTT::stretch_nltt_matrix(
     get_phylogeny_nltt_matrix(phylogeny1),
     dt = 0.2, step_type = "upper")
@@ -137,6 +136,7 @@ test_that("data types", {
 
   n_trees <- 2
   n_tips <- 3
+
   set.seed(41)
   ape_phylogenies <- ape::rmtree(N = n_trees, n = n_tips)
   m <- get_average_nltt_matrix(ape_phylogenies)
@@ -161,6 +161,7 @@ test_that("stop on incorrect input", {
 
   n_trees <- 2
   n_tips <- 3
+
   set.seed(41)
   ape_phylogenies <- ape::rmtree(N = n_trees, n = n_tips)
   single_phylogeny <- ape::rmtree(N = 1, n = n_tips)

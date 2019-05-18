@@ -1,7 +1,6 @@
 context("nltts_plot")
 
 test_that("use", {
-
   set.seed(42)
   n_tips <- 10
   phylos <- c(ape::rcoal(n = n_tips))

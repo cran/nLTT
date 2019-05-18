@@ -1,6 +1,7 @@
 context("mcmc_nltt")
 
 test_that("mcmc_nltt use", {
+  skip_on_cran()
   # These tests are very long
   if (Sys.getenv("HOME") == "/home/richel" ||
     Sys.getenv("HOME") == "/home/p230198") return()
@@ -49,6 +50,7 @@ test_that("mcmc_nltt use", {
 })
 
 test_that("mcmc_nltt abuse", {
+
   set.seed(1) #just to be safe
   tree1 <- TESS::tess.sim.taxa(n = 1, nTaxa = 50,
                                max = 100, lambda = 1.0, mu = 0.0)[[1]]
