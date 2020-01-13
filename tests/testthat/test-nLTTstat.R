@@ -17,7 +17,6 @@ test_that("Identical trees have an nLTTstat of zero", {
 })
 
 
-
 test_that("abs nLTTstat on known tree", {
 
   #
@@ -65,7 +64,6 @@ test_that("squ nLTTstat on known tree", {
     tolerance = 0.0001
   )
 })
-
 
 test_that("nLTTstat abuse", {
 

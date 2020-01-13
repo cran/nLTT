@@ -1,7 +1,7 @@
 Package: nLTT
 Type: Package
 Title: Calculate the NLTT Statistic
-Version: 1.4.1
+Version: 1.4.3
 Authors@R: c(person("Thijs","Janzen", email = "thijsjanzen@gmail.com",role=c("aut","cre")),
              person("Richel","Bilderbeek",email="richel@richelbilderbeek.nl", role=c("aut")))
 Description: Provides functions to calculate the normalised Lineage-Through-
@@ -13,13 +13,14 @@ Imports: ape, coda, deSolve, testit
 Suggests: DDD, ggplot2, Hmisc, knitr, microbenchmark, plyr, reshape2,
         rmarkdown, TESS, testthat, TreeSim
 NeedsCompilation: no
-Packaged: 2019-05-18 11:03:54 UTC; janzen
+Packaged: 2020-01-09 18:26:08 UTC; janzen
 RoxygenNote: 6.1.1
+Encoding: UTF-8
 VignetteBuilder: knitr
-URL: https://github.com/richelbilderbeek/nLTT
-BugReports: https://github.com/richelbilderbeek/nLTT/issues
+URL: https://github.com/thijsjanzen/nLTT
+BugReports: https://github.com/thijsjanzen/nLTT/issues
 Author: Thijs Janzen [aut, cre],
   Richel Bilderbeek [aut]
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-05-18 23:10:04 UTC
+Date/Publication: 2020-01-13 08:20:07 UTC

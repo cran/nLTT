@@ -8,20 +8,28 @@ test_that("input data type", {
   single_phylogeny <- ape::rmtree(N = 1, n = n_tips)
 
   # must supply at least something
-  expect_error(get_nltt_values(c()))
+  expect_error(
+    get_nltt_values(
+      phylogenies = c(), dt = 0.0
+    ),
+    "there must be at least one phylogeny supplied"
+  )
 
   #  dt must be from 0.0 to and including 1.0
-  expect_error(get_nltt_values(ape_phylogenies, dt = -0.1))
-  expect_error(get_nltt_values(ape_phylogenies, dt = 1.1))
-
-  # must supply at least two trees
-  expect_error(get_nltt_values(single_phylogeny))
-
-  # must supply a phylogeny
-  expect_error(get_nltt_values(c(1, 2, 3)))
-
-  # must supply only phylogenies
-  expect_error(get_nltt_values(list(c(1, 2), single_phylogeny)))
+  expect_error(
+    get_nltt_values(
+      phylogenies = ape_phylogenies,
+      dt = -0.1
+    ),
+    "dt must be between \\(not including\\) zero and one"
+  )
+  expect_error(
+    get_nltt_values(
+      phylogenies = ape_phylogenies,
+      dt = 1.1
+    ),
+    "dt must be between \\(not including\\) zero and one"
+  )
 })
 
 

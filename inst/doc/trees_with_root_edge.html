@@ -7,12 +7,13 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="author" content="Richel Bilderbeek" />
 
-<meta name="date" content="2019-05-18" />
+<meta name="date" content="2020-01-09" />
 
 <title>Trees with a root edge</title>
 
@@ -70,7 +71,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -95,7 +96,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Trees with a root edge</h1>
 <h4 class="author">Richel Bilderbeek</h4>
-<h4 class="date">2019-05-18</h4>
+<h4 class="date">2020-01-09</h4>
 
 
 
@@ -133,6 +134,9 @@ nLTT<span class="op">::</span><span class="kw">nltt_lines</span>(tree2, <span cl
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(nLTT<span class="op">::</span><span class="kw">nLTTstat_exact</span>(tree1, tree2, <span class="dt">ignore_stem =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>## [1] 0</code></pre>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
