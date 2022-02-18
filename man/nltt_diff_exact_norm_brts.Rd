@@ -5,8 +5,13 @@
 \title{Calculates the exact difference between the nLTT
 curves of the branching times}
 \usage{
-nltt_diff_exact_norm_brts(b_times_n, lineages_n, b_times2_n, lineages2_n,
-  distance_method)
+nltt_diff_exact_norm_brts(
+  b_times_n,
+  lineages_n,
+  b_times2_n,
+  lineages2_n,
+  distance_method
+)
 }
 \arguments{
 \item{b_times_n}{branching times of the first phylogeny}
@@ -26,5 +31,5 @@ Calculates the exact difference between the nLTT
 curves of the branching times
 }
 \author{
-Thijs Janzen and Richel Bilderbeek
+Thijs Janzen and Richèl Bilderbeek
 }

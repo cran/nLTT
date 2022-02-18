@@ -1,17 +1,13 @@
 context("mcmc_nltt")
 
 test_that("mcmc_nltt use", {
-  skip_on_cran()
-  # These tests are very long
-  if (Sys.getenv("HOME") == "/home/richel" ||
-    Sys.getenv("HOME") == "/home/p230198") return()
-  print(Sys.getenv("HOME"))
+  skip_on_cran() # These tests are very long
 
   set.seed(1)
   tree1 <- TESS::tess.sim.taxa(n = 1, nTaxa = 50,
                                max = 100, lambda = 1.0, mu = 0.0)[[1]]
 
-  LL_BD <- function(params, phy) {
+  ll_bd <- function(params, phy) {
     lnl <- TESS::tess.likelihood(ape::branching.times(phy),
                                  lambda = params[1], mu = params[2],
                                  samplingProbability = 1, log = TRUE)
@@ -25,26 +21,34 @@ test_that("mcmc_nltt use", {
     if (params[2] < 0) return(1e6)
     if (params[1] > 100) return(1e6)
     if (params[2] > 100) return(1e6)
-    return(-1 * LL_BD(params, tree1))
+    return(-1 * ll_bd(params, tree1))
   }
 
-  ML <- optim(par = c(1, 0.001), fn = tofit)
+  max_lik <- optim(par = c(1, 0.001), fn = tofit)
 
-  expect_equal(
-    colMeans(mcmc_nltt(tree1, LL_BD, c(1, 0.001), c(TRUE, TRUE),
-                        iterations = 10000, burnin = 1000,
-                        thinning = 1, sigma = 1))[[1]],
-    ML$par[[1]],
+  testthat::expect_output(
+  mcmc_result <- mcmc_nltt(tree1, ll_bd, c(1, 0.001), c(TRUE, TRUE),
+                           iterations = 10000, burnin = 1000,
+                           thinning = 1, sigma = 1)
+  )
+  testthat::expect_equal(
+    colMeans(mcmc_result)[[1]],
+    max_lik$par[[1]],
     tolerance = 0.05
   )
-
+testthat::expect_output(
+  mcmc_result1 <- mcmc_nltt(tree1, ll_bd, c(1, 0.01), c(TRUE, TRUE),
+                            iterations = 10000,
+                            burnin = 1000, thinning = 1, sigma = 0.5)
+)
+testthat::expect_output(
+  mcmc_result2 <- mcmc_nltt(tree1, ll_bd, c(1, 0.01), c(FALSE, FALSE),
+                            iterations = 10000,
+                            burnin = 1000, thinning = 1, sigma = 0.5)
+)
   expect_equal(
-    colMeans(mcmc_nltt(tree1, LL_BD, c(1, 0.01), c(TRUE, TRUE),
-                         iterations = 10000,
-                         burnin = 1000, thinning = 1, sigma = 0.5))[[1]],
-    colMeans(mcmc_nltt(tree1, LL_BD, c(1, 0.01), c(FALSE, FALSE),
-                         iterations = 10000,
-                         burnin = 1000, thinning = 1, sigma = 0.5))[[1]],
+    colMeans(mcmc_result1)[[1]],
+    colMeans(mcmc_result2)[[1]],
     tolerance = 0.05
   )
 })
@@ -55,7 +59,7 @@ test_that("mcmc_nltt abuse", {
   tree1 <- TESS::tess.sim.taxa(n = 1, nTaxa = 50,
                                max = 100, lambda = 1.0, mu = 0.0)[[1]]
 
-  LL_BD <- function(params, phy) {
+  ll_bd <- function(params, phy) {
     lnl <- TESS::tess.likelihood(ape::branching.times(phy),
                                  lambda = params[1], mu = params[2],
                                  samplingProbability = 1, log = TRUE)
@@ -64,20 +68,22 @@ test_that("mcmc_nltt abuse", {
     return(lnl + prior1 + prior2)
   }
 
-  expect_error(
-    mcmc_nltt(tree1, LL_BD, c(1, 0.0), c(TRUE, TRUE),
-               iterations = 10000, burnin = 1000, thinning = 1, sigma = 0.5),
-    "Cannot propose new value for a parameter with value 0.0."
+  expect_output(
+    expect_error(
+      mcmc_nltt(tree1, ll_bd, c(1, 0.0), c(TRUE, TRUE),
+                 iterations = 10000, burnin = 1000, thinning = 1, sigma = 0.5),
+      "Cannot propose new value for a parameter with value 0.0."
+    )
   )
 
   expect_error(
-    mcmc_nltt(42, LL_BD, c(1, 0.01), c(TRUE, TRUE),
+    mcmc_nltt(42, ll_bd, c(1, 0.01), c(TRUE, TRUE),
                iterations = 10000, burnin = 1000, thinning = 1, sigma = 0.5),
     "mcmc_nltt: phy must be of class 'phylo'"
   )
 
   expect_error(
-    mcmc_nltt(tree1, LL_BD, c(1, -1), c(TRUE, TRUE),
+    mcmc_nltt(tree1, ll_bd, c(1, -1), c(TRUE, TRUE),
                iterations = 10000, burnin = 1000, thinning = 1, sigma = 0.5),
     "mcmc_nltt: initial parameter values have to be above zero"
   )

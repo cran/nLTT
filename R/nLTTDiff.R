@@ -22,7 +22,8 @@ nltt_diff_exact <- function(
 
 #' Calculates the exact difference between the nLTT
 #' curves of the branching times
-#' @author Thijs Janzen and Richel Bilderbeek
+#' @inheritParams default_params_doc
+#' @author Thijs Janzen and Richèl Bilderbeek
 #' @param b_times branching times of the first phylogeny,
 #' @param lineages the number of lineages,
 #'   usually one to the number of lineages
@@ -34,13 +35,6 @@ nltt_diff_exact <- function(
 #'  \item{"abs: "}{the absolute distance between the two nLTTs is summed}
 #'  \item{"squ: "}{the squared distance between the two nLTTs is summed}
 #' }
-#' @param time_unit the time unit of the branching times
-#' \itemize{
-#'  \item{"ago: "}{the branching times are postive,
-#'    as these are in time units ago}
-#'  \item{"since: "}{the branching times are negative,
-#'    as these are in time units since present}
-#' }
 #' @export
 nltt_diff_exact_brts <- function(
   b_times,
@@ -48,27 +42,21 @@ nltt_diff_exact_brts <- function(
   b_times2,
   lineages2,
   distance_method = "abs",
-  time_unit = "since") {
-  if (time_unit != "since" && time_unit != "ago") {
-    stop("time_unit must be either 'since' or 'ago'")
-  }
+  time_unit = "since"
+) {
+  nLTT::check_time_unit(time_unit)
+  nLTT::check_input_event_times(
+    event_times = b_times,
+    event_times2 = b_times2,
+    time_unit = time_unit
+  )
+
   # Each branching time must have a number of lineages to accompany it
   testit::assert(length(b_times) == length(lineages))
   testit::assert(length(b_times2) == length(lineages2))
 
-  if (time_unit == "since"){
-    if (!all(b_times <= 0.0) || !all(b_times2 <= 0.0)) {
-      stop("branching times must be negative, ",
-        "for example -3 time units since the present")
-    }
-
-  }
-  if (time_unit == "ago"){
-    if (!all(b_times >= 0.0) || !all(b_times2 >= 0.0)) {
-      stop("branching times must be positive, ",
-        "for example 3 time units ago")
-    }
-   # Conformize te b_times for the classic calculation
+  if (time_unit == "ago") {
+    # Conformize te b_times for the classic calculation
     b_times <- c(-1.0 * rev(sort(b_times)), 0)
     b_times2 <- c(-1.0 * rev(sort(b_times2)), 0)
     lineages  <- c(lineages, utils::tail(lineages, n = 1))
@@ -108,7 +96,7 @@ nltt_diff_exact_brts <- function(
 
 #' Calculates the exact difference between the nLTT
 #' curves of the branching times
-#' @author Thijs Janzen and Richel Bilderbeek
+#' @author Thijs Janzen and Richèl Bilderbeek
 #' @param b_times_n branching times of the first phylogeny
 #' @param lineages_n the number of lineages,
 #'   usually one to the number of lineages
@@ -183,7 +171,8 @@ nltt_diff_exact_norm_brts <- function(
   diff
 }
 
-#' Calculates the exact difference between the lineage through time curves of tree1 & tree2 (normalized in time and for the number of lineages)
+#' Calculates the exact difference between the lineage through time curves of
+#' tree1 & tree2 (normalized in time and for the number of lineages)
 #' @author Thijs Janzen
 #' @param tree1 (phylo) First phylogenetic tree
 #' @param tree2 (phylo) Second phylogenetic tree
@@ -271,8 +260,11 @@ nltt_diff <- function(
 #
 # @param    tree1                  phylo      First phylogenetic tree
 # @param    tree2                  phylo      Second phylogenetic tree
-# @param    distance_method        string     Method to calculate the difference, either absolute, or squared
-# @return                          scalar     normalized Lineage-Through-Time difference between tree1 & tree2
+# @param    distance_method        string     Method to calculate the
+#                                             difference, either absolute,
+#                                             or squared
+# @return                          scalar     normalized Lineage-Through-Time
+#                                             difference between tree1 & tree2
 #
 ################################################################################
 #' This function takes two ultrametric phylogenetic trees,
@@ -280,7 +272,8 @@ nltt_diff <- function(
 #'   and then calculates the difference between the two statistics.
 #' @title Calculate the difference between two normalized
 #'   Lineage-Through-Time curves, given two phylogenetic trees.
-#' @usage nLTTstat(tree1, tree2, distance_method = "abs", ignore_stem = TRUE, log_transform = FALSE)
+#' @usage nLTTstat(tree1, tree2, distance_method = "abs", ignore_stem = TRUE,
+#'                log_transform = FALSE)
 #' @param tree1 an object of class \code{"phylo"}
 #' @param tree2 an object of class \code{"phylo"}
 #' @param distance_method Chosen measurement of distance between
@@ -300,7 +293,8 @@ nltt_diff <- function(
 #'     exampleTrees[[1]], exampleTrees[[2]],
 #'     distance_method = "abs", ignore_stem = TRUE)
 #' @export
-nLTTstat <- function(  # nolint keep function name non-all-lowercase, due to backwards compatibility
+nLTTstat <- function(  # nolint keep function name non-all-lowercase,
+                       #  due to backwards compatibility
   tree1,
   tree2,
   distance_method = "abs",
@@ -341,9 +335,13 @@ nLTTstat <- function(  # nolint keep function name non-all-lowercase, due to bac
 #
 # @param    tree1                  phylo      First phylogenetic tree
 # @param    tree2                  phylo      Second phylogenetic tree
-# @param    distance_method        string     Method to calculate the difference, either absolute, or squared
-# @param    ignore_stem            logical    Should the phylogeny its stem be ignored?
-# @return                          scalar     normalized Lineage-Through-Time difference between tree1 & tree2
+# @param    distance_method        string     Method to calculate the
+#                                             difference, either absolute,
+#                                             or squared
+# @param    ignore_stem            logical    Should the phylogeny its stem be
+#                                             ignored?
+# @return                          scalar     normalized Lineage-Through-Time
+#                                             difference between tree1 & tree2
 #
 ################################################################################
 #' Calculate the exact difference between
@@ -384,7 +382,8 @@ nLTTstat <- function(  # nolint keep function name non-all-lowercase, due to bac
 #'     ignore_stem = TRUE
 #'   )
 #' @export
-nLTTstat_exact <- function( # nolint keep function name non-all-lowercase, due to backwards compatibility
+nLTTstat_exact <- function( # nolint keep function name non-all-lowercase,
+                            #  due to backwards compatibility
   tree1,
   tree2,
   distance_method = "abs",
@@ -424,8 +423,7 @@ nLTTstat_exact <- function( # nolint keep function name non-all-lowercase, due t
 #'   tree <- ape::rcoal(4)
 #'   trees <- c(ape::rcoal(4), ape::rcoal(4))
 #'   nltts <- nltts_diff(tree, trees)
-#'   testit::assert(all(nltts >= 0.0 && nltts <= 1.0))
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @export
 nltts_diff <- function(
   tree,

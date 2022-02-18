@@ -30,7 +30,25 @@ test_that("input data type", {
     ),
     "dt must be between \\(not including\\) zero and one"
   )
+
+  expect_error(
+    get_nltt_values(
+      phylogenies = "nonsense",
+      dt = 0.2
+    ),
+    "phylogenies must be of class 'multiPhylo' or 'list'"
+  )
+  expect_error(
+    get_nltt_values(
+      phylogenies = list(ape_phylogenies, ape_phylogenies),
+      dt = 0.2
+    ),
+    "phylogenies must be of type phylo"
+  )
 })
+
+
+
 
 
 test_that("return data type", {
@@ -241,7 +259,7 @@ test_that("get_nltt_values: check hard newick, Cer2016 issue 83", {
   expect_true(utils::tail(result$nltt, n = 1) > 0.7)
 })
 
-# From https://github.com/richelbilderbeek/nLTT/issues/33
+# From https://github.com/thijsjanzen/nLTT/issues/33
 # Thanks to @franciscorichter for finding this bug
 test_that("get_nltt_values: issue 33", {
   set.seed(42)

@@ -1,23 +1,23 @@
 ## ----fig.width=2--------------------------------------------------------------
-# normalized number of lineages 
+# normalized number of lineages
 #
-#  1.0 +   X---X
-#      |   |
-#  0.5 X---+
-#      |
-#      +---+---+
-#         0.5 1.0   normalized time
+# 1.0 +   X---X                                            #nolint
+#     |   |
+# 0.5 X---+                                                #nolint
+#     |
+#     +---+---+
+#        0.5 1.0   normalized time
 #
 #
 #
-# normalized number of lineages 
+# normalized number of lineages
 #
-#  1.0  +       X
-#  0.75 |   X---+
-#  0.5  |   |
-#  0.25 X---+
-#       +---+---+
-#         0.5 1.0   normalized time
+##  1.0  +       X                                         #nolint
+##  0.75 |   X---+
+##  0.5  |   |
+##  0.25 X---+
+##       +---+---+
+##         0.5 1.0   normalized time
 
 ## -----------------------------------------------------------------------------
 phylogeny_1 <- ape::read.tree(text = "(a:1,b:1):1;")
@@ -27,7 +27,7 @@ ape::plot.phylo(phylogeny_1, root.edge = TRUE)
 ape::plot.phylo(phylogeny_2, root.edge = TRUE)
 
 ## -----------------------------------------------------------------------------
-nLTT::nltt_plot(phylogeny_1, ylim = c(0,1)); nLTT::nltt_lines(phylogeny_2)
+nLTT::nltt_plot(phylogeny_1, ylim = c(0, 1)); nLTT::nltt_lines(phylogeny_2)
 
 ## -----------------------------------------------------------------------------
 nltt_stat <- nLTT::nltt_diff(phylogeny_1, phylogeny_2)
@@ -52,7 +52,7 @@ nltt_stat_exact <- nLTT::nltt_diff_exact_brts(
   b_times2 = b_times2,
   lineages2 = lineages2,
   distance_method = "abs",
-  time_unit = "ago") 
+  time_unit = "ago")
 
 testthat::expect_equal(nltt_stat_exact, 0.25, tolerance = 0.0001)
 
@@ -65,14 +65,4 @@ df <- data.frame(b_times_n = b_times_n, lineages_n = lineages_n)
 knitr::kable(df)
 df2 <- data.frame(b_times2_n = b_times2_n, lineages2_n = lineages2_n)
 knitr::kable(df2)
-
-## -----------------------------------------------------------------------------
-# nltt_stat_exact <- nLTT::nltt_diff_exact_norm_brts(
-#   b_times_n = b_times_n,
-#   lineages_n = lineages_n,
-#   b_times2_n = b_times2_n,
-#   lineages2_n = lineages2_n,
-#   distance_method = "abs") 
-# 
-# testthat::expect_equal(nltt_stat_exact, 0.25, tolerance = 0.0001)
 
