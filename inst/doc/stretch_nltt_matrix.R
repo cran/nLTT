@@ -7,7 +7,7 @@ library(testit)
 newick <- "((A:1,B:1):1,C:2);"
 phylogeny <- ape::read.tree(text = newick)
 plot(phylogeny)
-add.scale.bar() #nolint
+ape::add.scale.bar() #nolint
 
 ## -----------------------------------------------------------------------------
 nltt_plot(phylogeny)
@@ -36,7 +36,7 @@ points(stretch_matrix, pch = 19, col = "blue")
 newick <- "((A:1,B:1):1,(C:1,D:1):1);"
 phylogeny <- ape::read.tree(text = newick)
 plot(phylogeny)
-add.scale.bar() #nolint
+ape::add.scale.bar() #nolint
 
 ## -----------------------------------------------------------------------------
 nltt_plot(phylogeny)
@@ -67,7 +67,7 @@ newick <- paste0("((((XD:1,ZD:1):1,CE:2):1,(FE:2,EE:2):1):4,((AE:1,BE:1):1,",
 )
 phylogeny <- ape::read.tree(text = newick)
 plot(phylogeny)
-add.scale.bar() #nolint
+ape::add.scale.bar() #nolint
 
 ## -----------------------------------------------------------------------------
 nltt_plot(phylogeny)

@@ -1,5 +1,7 @@
 ## ---- include = FALSE---------------------------------------------------------
 library(nLTT) #nolint
+require(ggplot2)
+require(knitr)
 # temporary fix to keep R-devel happy.
   # should be updated upon release of version 3.6
 

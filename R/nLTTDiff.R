@@ -293,8 +293,8 @@ nltt_diff <- function(
 #'     exampleTrees[[1]], exampleTrees[[2]],
 #'     distance_method = "abs", ignore_stem = TRUE)
 #' @export
-nLTTstat <- function(  # nolint keep function name non-all-lowercase,
-                       #  due to backwards compatibility
+nLTTstat <- function(# nolint keep function name non-all-lowercase,
+                     #  due to backwards compatibility
   tree1,
   tree2,
   distance_method = "abs",
@@ -382,8 +382,8 @@ nLTTstat <- function(  # nolint keep function name non-all-lowercase,
 #'     ignore_stem = TRUE
 #'   )
 #' @export
-nLTTstat_exact <- function( # nolint keep function name non-all-lowercase,
-                            #  due to backwards compatibility
+nLTTstat_exact <- function(# nolint keep function name non-all-lowercase,
+                           #  due to backwards compatibility
   tree1,
   tree2,
   distance_method = "abs",
@@ -432,10 +432,10 @@ nltts_diff <- function(
   ignore_stem = TRUE,
   log_transform = FALSE
 ) {
-  if (class(tree) != "phylo") {
+  if (!inherits(tree, "phylo")) {
     stop("'tree' must be of type 'phylo'")
   }
-  if (class(trees) != "multiPhylo") {
+  if (!inherits(trees, "multiPhylo")) {
     stop("'trees' must be of type 'multiPhylo'")
   }
   if (!distance_method %in% c("abs", "squ")) {

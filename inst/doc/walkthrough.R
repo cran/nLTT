@@ -5,8 +5,8 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ## -----------------------------------------------------------------------------
     library(nLTT) #nolint
     set.seed(42)
-    tree1 <- TESS::tess.sim.age(n = 1, age = 10, lambda = 0.4, mu = 0)[[1]]
-    tree2 <- TESS::tess.sim.age(n = 1, age = 10, lambda = 0.25, mu = 0)[[1]]
+    tree1 <- ape::rphylo(n = 100, birth = 0.4, death = 0.0)
+    tree2 <- ape::rphylo(n = 100, birth = 0.25, death = 0.0)
     par(mfrow = c(1, 2))
     par(mar = c(2, 2, 2, 2))
     plot(tree1)
@@ -18,13 +18,13 @@ options(rmarkdown.html_vignette.check_title = FALSE)
     legend("topleft", c("tree1", "tree2"), col = c("red", "blue"), lty = 1)
 
 ## -----------------------------------------------------------------------------
-nLTTstat(tree1, tree2) #nolint
-nLTTstat_exact(tree1, tree2) #nolint
-
-## -----------------------------------------------------------------------------
 set.seed(42)
-trees1 <- TESS::tess.sim.age(n = 100, age = 10, lambda = 0.4, mu = 0)
-trees2 <- TESS::tess.sim.age(n = 100, age = 10, lambda = 0.25, mu = 0)
+trees1 <- list()
+trees2 <- list()
+for (r in 1:100) {
+  trees1[[r]] <- ape::rphylo(n = 100, birth = 0.4, death = 0.0)
+  trees2[[r]] <- ape::rphylo(n = 100, birth = 0.25, death = 0.0)
+}
 
 ## -----------------------------------------------------------------------------
 par(mfrow = c(1, 2))
@@ -45,103 +45,4 @@ plot(m1, type = "s", col = "red", lwd = 2, xlim = c(0, 1), ylim = c(0, 1),
 lines(m2, type = "s", col = "blue", lwd = 2)
 legend("topleft", c("trees1", "trees2"), col = c("red", "blue"),
        lty = 1, lwd = 2)
-
-## -----------------------------------------------------------------------------
-fixed_issue <- FALSE
-
-## -----------------------------------------------------------------------------
- treesim <- function(params) {
-    t <- TreeSim::sim.bd.taxa.age(n = 100,
-                              numbsim = 1,
-                              lambda = params[1],
-                              mu = 0, age = 10)[[1]]
-    return(t)
- }
-
-## -----------------------------------------------------------------------------
-  prior_gen <- function() {
-    rexp(n = 1, rate = 10)
-  }
-
-  prior_dens <- function(val) {
-    dexp(val[1], rate = 10)
-  }
-  
-  statwrapper <- function(tree1) {
-    nLTTstat_exact(tree1, obs, "abs")  #nolint
-  }
-
-## -----------------------------------------------------------------------------
-set.seed(42)
-obs <- treesim(c(0.50, 0)) #lambda = 0.5, mu = 0.0
-
-## -----------------------------------------------------------------------------
-if (fixed_issue) {
-  a <- abc_smc_nltt(
-      obs, c(statwrapper), treesim, init_epsilon_values = 0.2,
-      prior_generating_function = prior_gen,
-      prior_density_function = prior_dens,
-      number_of_particles = 100, sigma = 0.05, stop_rate = 0.01)
-}
-
-## -----------------------------------------------------------------------------
-if (fixed_issue) {
-  hist(A, breaks = seq(0, 1, by = 0.05), col = "grey", main = "Lambda")
-  abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
-}
-
-## -----------------------------------------------------------------------------
-ll_b <- function(params, phy) {
-    lnl <- TESS::tess.likelihood(ape::branching.times(phy),
-                                 lambda = params[1], mu = 0.0,
-                                 samplingProbability = 1, log = TRUE)
-    prior1  <- log(prior_dens(params)) # nolint
-    return(lnl + prior1)
-}
-
-## -----------------------------------------------------------------------------
-if (fixed_issue) {
-  fun <- function(x) {
-    return(-1 * ll_b(x, obs)) # nolint
-  }
-  ml <- stats::optimize(f = fun, interval = c(0, 1))
-  ml
-  hist(a, breaks = seq(0, 1, by = 0.05), col = "grey", main = "Lambda")
-  abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
-  abline(v = ml$minimum, lty = 2, col = "green", lwd = 2)
-  legend("topright", c("ABC-SMC", "ML", "True"),
-         pch = c(15, NA, NA),
-         lty = c(NA, 2, 2),
-         col = c("grey", "green", "blue"), lwd = 2)
-}
-
-## -----------------------------------------------------------------------------
-if (fixed_issue) {
-  b <- mcmc_nltt(obs, ll_b, parameters = c(0.5),
-                           logtransforms = c(TRUE),
-                           iterations = 10000, burnin = 1000,
-                           thinning = 1, sigma = 1)
-}
-
-## -----------------------------------------------------------------------------
-if (fixed_issue) {
-  b_mcmc <- coda::as.mcmc(b)
-  plot(b_mcmc)
-}
-
-## -----------------------------------------------------------------------------
-if (fixed_issue) {
-  par(mfrow = c(1, 2))
-  hist(a, breaks = seq(0, 1, by = 0.05), col = "grey",
-       main = "Lambda, ABC", xlab = "")
-  abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
-  abline(v = ml$minimum, lty = 2, col = "green", lwd = 2)
-  legend("right", c("ML", "True"),
-         lty = c(2, 2),
-         col = c("green", "blue"), lwd = 2)
-  hist(b, breaks = seq(0, 1, by = 0.05), col = "grey",
-       main = "Lambda, MCMC", xlab = "")
-  abline(v = 0.5, lty = 2, col = "blue", lwd = 2)
-  abline(v = ml$minimum, lty = 2, col = "green", lwd = 2)
-}
 
